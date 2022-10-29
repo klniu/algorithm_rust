@@ -25,7 +25,11 @@ mod tests {
     use crate::sort::selection_sort::SelectionSort;
     use crate::sort::sort_test::SortTest;
 
-    impl SortTest for SelectionSort {}
+    impl SortTest for SelectionSort {
+        fn o() -> String {
+            "O(n^2)".to_string()
+        }
+    }
 
     #[test]
     fn test_search() {

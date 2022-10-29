@@ -20,7 +20,11 @@ mod tests {
     use crate::search::linear_search::LinearSearch;
     use crate::search::search_test::SearchTest;
 
-    impl SearchTest for LinearSearch {}
+    impl SearchTest for LinearSearch {
+        fn o() -> String {
+            "O(n)".to_string()
+        }
+    }
 
     #[test]
     fn test_search() {

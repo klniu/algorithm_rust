@@ -11,6 +11,9 @@ pub trait Sort {
 }
 
 pub(crate) trait SortTest: Sort {
+    /// Computational complexity
+    fn o() -> String;
+
     fn test_sort() {
         Self::test_sort_int();
         Self::test_sort_string();
@@ -59,10 +62,10 @@ pub(crate) trait SortTest: Sort {
 
         let now = Instant::now();
         Self::sort(&mut helper::generate_random_int_array::<10000>());
-        println!("{type_name}, n = 10000, elapsed: {} s", now.elapsed().as_millis() as f64 / 1000.0);
+        println!("{type_name}, {}, n = 10000, elapsed: {} s", Self::o(), now.elapsed().as_millis() as f64 / 1000.0);
 
         let now = Instant::now();
-        Self::sort(&mut helper::generate_random_int_array::<50000>());
-        println!("{type_name}, n = 50000, elapsed: {} s", now.elapsed().as_millis() as f64 / 1000.0);
+        Self::sort(&mut helper::generate_random_int_array::<20000>());
+        println!("{type_name}, {}, n = 20000, elapsed: {} s", Self::o(), now.elapsed().as_millis() as f64 / 1000.0);
     }
 }

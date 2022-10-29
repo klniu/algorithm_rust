@@ -20,6 +20,9 @@ pub trait Search {
 }
 
 pub(crate) trait SearchTest: Search {
+    /// Computational complexity
+    fn o() -> String;
+
     fn test_search() {
         Self::test_search_int();
         Self::test_search_string();
@@ -71,13 +74,13 @@ pub(crate) trait SearchTest: Search {
         let array = helper::generate_ordered_int_array::<100000>();
         let now = Instant::now();
         Self::search(&array, &(100000 - 1));
-        println!("{type_name}, n = 100000, elapsed: {} s",
+        println!("{type_name}, {}, n = 100000, elapsed: {} s", Self::o(),
                  now.elapsed().as_millis() as f64 / 1000.0 / 3 as f64);
 
         let array = helper::generate_ordered_int_array::<200000>();
         let now = Instant::now();
         Self::search(&array, &(200000 - 1));
-        println!("{type_name}, n = 200000, elapsed: {} s",
+        println!("{type_name}, {}, n = 200000, elapsed: {} s", Self::o(),
                  now.elapsed().as_millis() as f64 / 1000.0 / 3 as f64);
     }
 }
