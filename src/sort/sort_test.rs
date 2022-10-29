@@ -22,7 +22,11 @@ pub(crate) trait SortTest: Sort {
     }
 
     fn test_sort_int() {
-        let mut array = [3, 5, 7, 9, 0, 102, 11];
+        let mut array: [i32; 0] = [];
+        Self::sort(&mut array);
+        assert_eq!([0; 0], array);
+
+        let mut array = [3, 7, 5, 9, 0, 102, 11];
         Self::sort(&mut array);
         assert_eq!([0, 3, 5, 7, 9, 11, 102], array);
     }
@@ -62,10 +66,18 @@ pub(crate) trait SortTest: Sort {
 
         let now = Instant::now();
         Self::sort(&mut helper::generate_random_int_array::<10000>());
-        println!("{type_name}, {}, n = 10000, elapsed: {} s", Self::o(), now.elapsed().as_millis() as f64 / 1000.0);
+        println!("{type_name}, {}, n = 10000, random, elapsed: {} s", Self::o(), now.elapsed().as_millis() as f64 / 1000.0);
 
         let now = Instant::now();
         Self::sort(&mut helper::generate_random_int_array::<20000>());
-        println!("{type_name}, {}, n = 20000, elapsed: {} s", Self::o(), now.elapsed().as_millis() as f64 / 1000.0);
+        println!("{type_name}, {}, n = 20000, random, elapsed: {} s", Self::o(), now.elapsed().as_millis() as f64 / 1000.0);
+
+        let now = Instant::now();
+        Self::sort(&mut helper::generate_ordered_int_array::<10000>());
+        println!("{type_name}, {}, n = 10000, ordered, elapsed: {} s", Self::o(), now.elapsed().as_millis() as f64 / 1000.0);
+
+        let now = Instant::now();
+        Self::sort(&mut helper::generate_ordered_int_array::<20000>());
+        println!("{type_name}, {}, n = 20000, ordered, elapsed: {} s", Self::o(), now.elapsed().as_millis() as f64 / 1000.0);
     }
 }
