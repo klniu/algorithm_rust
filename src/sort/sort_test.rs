@@ -1,8 +1,5 @@
-use rand::Rng;
 use std::time::Instant;
-
-const TEST_COUNT: usize = 3;
-const ELEMENT_COUNT: usize = 10000;
+use crate::helper;
 
 #[derive(Ord, PartialOrd, Eq, PartialEq)]
 struct TestStruct {
@@ -57,15 +54,15 @@ pub(crate) trait SortTest: Sort {
     }
 
     fn test_sort_benchmark() {
-        let mut array = [0; ELEMENT_COUNT];
-        let mut rng = rand::thread_rng();
-        for e in array.iter_mut() {
-            *e = rng.gen()
-        }
+        // get type name
+        let type_name = helper::split_and_last_item(std::any::type_name::<Self>());
+
         let now = Instant::now();
-        for _ in 0..TEST_COUNT {
-            Self::sort(&mut array)
-        }
-        println!("{} sort elapsed: {} s", std::any::type_name::<Self>(), now.elapsed().as_millis() as f64 / 1000.0 / TEST_COUNT as f64);
+        Self::sort(&mut helper::generate_random_int_array::<10000>());
+        println!("{type_name}, n = 10000, elapsed: {} s", now.elapsed().as_millis() as f64 / 1000.0);
+
+        let now = Instant::now();
+        Self::sort(&mut helper::generate_random_int_array::<50000>());
+        println!("{type_name}, n = 50000, elapsed: {} s", now.elapsed().as_millis() as f64 / 1000.0);
     }
 }

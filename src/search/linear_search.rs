@@ -1,6 +1,8 @@
 use super::search_test::Search;
 
-struct LinearSearch {}
+struct LinearSearch {
+    _private: ()
+}
 
 impl Search for LinearSearch {
     fn search<T: Eq>(elements: &[T], element: &T) -> isize {

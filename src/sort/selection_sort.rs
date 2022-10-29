@@ -1,16 +1,20 @@
 use crate::sort::sort_test::{Sort};
 
-struct SelectionSort {}
+struct SelectionSort {
+    _private: (),
+}
 
 impl Sort for SelectionSort {
     fn sort<T: Ord>(elements: &mut [T]) {
         let count = elements.len();
         for i in 0..count {
+            let mut mini_index = i;
             for j in i..count {
-                if &elements[i] > &elements[j] {
-                    elements.swap(i, j);
+                if &elements[j] < &elements[mini_index] {
+                    mini_index = j;
                 }
             }
+            elements.swap(i, mini_index);
         }
     }
 }

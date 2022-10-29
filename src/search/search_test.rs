@@ -1,7 +1,5 @@
 use std::time::Instant;
-
-const TEST_COUNT: usize = 3;
-const ELEMENT_COUNT: usize = 100000;
+use crate::helper;
 
 struct Test {
     test1: String,
@@ -67,15 +65,19 @@ pub(crate) trait SearchTest: Search {
     }
 
     fn test_search_benchmark() {
-        let mut array = [0; ELEMENT_COUNT];
-        for i in 0..TEST_COUNT {
-            array[i] = i;
-        }
+        // get type name
+        let type_name = helper::split_and_last_item(std::any::type_name::<Self>());
+
+        let array = helper::generate_ordered_int_array::<100000>();
         let now = Instant::now();
-        for _ in 0..TEST_COUNT {
-            Self::search(&array, &(ELEMENT_COUNT - 1));
-        }
-        println!("{} do search elapsed: {} s",
-                 std::any::type_name::<Self>(), now.elapsed().as_millis() as f64 / 1000.0 / TEST_COUNT as f64);
+        Self::search(&array, &(100000 - 1));
+        println!("{type_name}, n = 100000, elapsed: {} s",
+                 now.elapsed().as_millis() as f64 / 1000.0 / 3 as f64);
+
+        let array = helper::generate_ordered_int_array::<200000>();
+        let now = Instant::now();
+        Self::search(&array, &(200000 - 1));
+        println!("{type_name}, n = 200000, elapsed: {} s",
+                 now.elapsed().as_millis() as f64 / 1000.0 / 3 as f64);
     }
 }
